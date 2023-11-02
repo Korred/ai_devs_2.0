@@ -18,7 +18,7 @@ This part of the repository contains Python solutions for all AI Devs 2 tasks.
 To run a specific task use the following command from the ``ai_devs`` folder:
 
 ```
-python -m tasks.{YYYY-MM-DD}.{task_name} e.g. python -m tasks.2023-10-23.helloapi
+python -m tasks.{course_lesson_id}.{task_name} e.g. python -m tasks.C01L01.helloapi
 ```
 
 

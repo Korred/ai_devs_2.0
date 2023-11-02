@@ -8,10 +8,10 @@ from utils.client import AIDevsClient
 load_dotenv()
 
 # Get API key from environment variables
-api_key = os.environ.get("API_KEY")
+aidevs_api_key = os.environ.get("AIDEVS_API_KEY")
 
 # Create a client instance
-client = AIDevsClient(api_key)
+client = AIDevsClient(aidevs_api_key)
 
 # Get a task
 task = client.get_task("helloapi")
