@@ -10,3 +10,5 @@ Important urls:
 | Tasks | https://zadania.aidevs.pl/     |
 | Course lessons  | https://bravecourses.circle.so/c/lekcje-programu/    |
 | Discussions    | https://bravecourses.circle.so/c/dyskusja/   |
+| Playground    | https://platform.openai.com/playground   |
+| Tokenizer | https://platform.openai.com/tokenizer |
