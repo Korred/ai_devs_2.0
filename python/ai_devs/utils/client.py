@@ -47,3 +47,9 @@ class AIDevsClient:
         response = httpx.post(answer_url, json=payload)
 
         return response.json()
+
+    def send_question(self, task: AIDevsTask, data: dict):
+        url = self.base_url + self.TASK_URL.format(token=task.token)
+        response = httpx.post(url, data=data)
+
+        return response.json()
