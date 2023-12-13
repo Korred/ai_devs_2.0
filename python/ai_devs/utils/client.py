@@ -39,7 +39,9 @@ class AIDevsClient:
 
         return AIDevsTask(task_name, token, response.json())
 
-    def post_answer(self, task: AIDevsTask, answer: Union[str, dict, List[int]]):
+    def post_answer(
+        self, task: AIDevsTask, answer: Union[str, dict, List[int], List[float]]
+    ):
         # TODO: Add proper typing
 
         answer_url = self.base_url + self.ANSWER_URL.format(token=task.token)
