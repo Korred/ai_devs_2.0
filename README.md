@@ -1,5 +1,5 @@
 # ai_devs_2.0
-Repository containing all things related to AI Devs 2 task solutions written in e.g. Python, X, and Y. (add missing)
+Repository containing all things related to AI Devs 2 task solutions written in e.g. Python...
 
 
 
