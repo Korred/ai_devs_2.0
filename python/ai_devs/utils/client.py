@@ -46,7 +46,7 @@ class AIDevsClient:
 
         answer_url = self.base_url + self.ANSWER_URL.format(token=task.token)
         payload = {"answer": answer}
-        response = httpx.post(answer_url, json=payload)
+        response = httpx.post(answer_url, json=payload, timeout=120)
 
         return response.json()
 
