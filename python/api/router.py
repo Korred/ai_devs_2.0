@@ -1,7 +1,7 @@
-from pydantic import BaseModel
 import openai
-from fastapi import APIRouter
 from config import settings
+from fastapi import APIRouter
+from pydantic import BaseModel
 
 
 # Define models
@@ -9,8 +9,8 @@ class Question(BaseModel):
     question: str
 
 
-class Answer(BaseModel):
-    answer: str
+class Reply(BaseModel):
+    reply: str
 
 
 # Setup API v1 router
@@ -22,7 +22,7 @@ openai.api_key = settings.openai_api_key
 
 # Example assistant endpoint that uses GPT-4 to answer questions
 @v1.post("/assistant")
-def assistant(request: Question) -> Answer:
+def assistant(request: Question) -> Reply:
     completion = openai.chat.completions.create(
         model="gpt-4",
         messages=[
@@ -32,4 +32,4 @@ def assistant(request: Question) -> Answer:
     )
 
     answer = completion.choices[0].message.content
-    return Answer(answer=answer)
+    return Reply(reply=answer)
