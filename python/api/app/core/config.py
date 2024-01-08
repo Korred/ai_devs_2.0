@@ -1,6 +1,7 @@
+from typing import Union
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import load_dotenv
-from pydantic import AnyHttpUrl, PostgresDsn, computed_field
+from pydantic import AnyHttpUrl, PostgresDsn, computed_field, validator
 from functools import cached_property
 
 # Load environment variables from .env file
@@ -17,7 +18,7 @@ class Settings(BaseSettings):
     DB_NAME: str
 
     BACKEND_CORS_ORIGINS: list[AnyHttpUrl] = []
-    ALLOWED_HOSTS: list[str] = ["localhost", "127.0.0.1"]
+    ALLOWED_HOSTS: str | list[str] = ["localhost", "127.0.0.1"]
 
     @computed_field
     @cached_property
@@ -32,6 +33,18 @@ class Settings(BaseSettings):
                 path=self.DB_NAME,
             )
         )
+
+    @validator("ALLOWED_HOSTS", pre=True)
+    def parse_allowed_hosts(cls, v: Union[str, list[str]]) -> list[str]:
+        if isinstance(v, str):
+            return [host.strip() for host in v.split(",")]
+        return v
+
+    @validator("BACKEND_CORS_ORIGINS", pre=True)
+    def parse_backend_cors_origins(cls, v: Union[str, list[str]]) -> list[str]:
+        if isinstance(v, str):
+            return [origin.strip() for origin in v.split(",")]
+        return v
 
     model_config = SettingsConfigDict(
         env_file=".env", env_file_encoding="utf-8", extra="allow", case_sensitive=True
