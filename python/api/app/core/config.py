@@ -1,8 +1,9 @@
+from functools import cached_property
 from typing import Union
-from pydantic_settings import BaseSettings, SettingsConfigDict
+
 from dotenv import load_dotenv
 from pydantic import AnyHttpUrl, PostgresDsn, computed_field, validator
-from functools import cached_property
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Load environment variables from .env file
 load_dotenv()
@@ -11,6 +12,7 @@ load_dotenv()
 # Define Settings class
 class Settings(BaseSettings):
     OPENAI_API_KEY: str
+    SERPAPI_KEY: str
     DB_HOSTNAME: str
     DB_USER: str
     DB_PASSWORD: str
