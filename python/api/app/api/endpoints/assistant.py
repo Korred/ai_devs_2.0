@@ -9,6 +9,7 @@ from app.api.services.assistant import (
     handle_assistant_request,
     handle_search_request,
     handle_simple_assistant_request,
+    handle_md2html_request,
 )
 from app.core.config import settings
 from app.schemas.requests import AssistantRequest
@@ -55,3 +56,12 @@ async def forget_memories(
 ) -> GenericResponse:
     answer = await forget(session)
     return GenericResponse(message=answer)
+
+
+@router.post("/md2html")
+async def md2html(
+    request: AssistantRequest,
+    session: AsyncSession = Depends(deps.get_session),
+) -> AssistantResponse:
+    answer = await handle_md2html_request(request, session, openai_client)
+    return AssistantResponse(reply=answer)

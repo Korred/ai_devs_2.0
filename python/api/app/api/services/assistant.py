@@ -145,6 +145,33 @@ async def store_conversation(question: str, answer: str, session: AsyncSession):
     await session.commit()
 
 
+async def handle_md2html_request(
+    request: AssistantRequest,
+    session: AsyncSession,
+    openai_client: AsyncOpenAI,
+) -> str:
+    system_msg = """
+    Translate the provided markdown into html.
+    Return only the html content, nothing else.
+    Ensure that the href tag is using the double quotation mark instead of a single one.
+    """
+
+    completion = await openai_client.chat.completions.create(
+        model="ft:gpt-3.5-turbo-1106:personal::8hkZbTOZ",
+        messages=[
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": request.question},
+        ],
+        max_tokens=400,
+    )
+
+    answer = completion.choices[0].message.content
+
+    await store_conversation(request.question, answer, session)
+
+    return answer
+
+
 async def handle_search_request(
     request: AssistantRequest,
     session: AsyncSession,
