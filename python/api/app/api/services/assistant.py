@@ -156,7 +156,7 @@ async def handle_md2html_request(
     Ensure that the href tag is using the double quotation mark instead of a single one.
     """
 
-    completion = await openai_client.chat.completions.create(
+    html_completion = await openai_client.chat.completions.create(
         model="ft:gpt-3.5-turbo-1106:personal::8hkZbTOZ",
         messages=[
             {"role": "system", "content": system_msg},
@@ -165,7 +165,21 @@ async def handle_md2html_request(
         max_tokens=400,
     )
 
-    answer = completion.choices[0].message.content
+    recheck_msg = """
+    Ensure all HTML tags are opened and closes properly e.g. <tag>content</tag>
+    If there is a broken tag, fix it. Return the HTML, nothing else.
+    """
+
+    recheck_completion = await openai_client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": recheck_msg},
+            {"role": "user", "content": html_completion.choices[0].message.content},
+        ],
+        max_tokens=400,
+    )
+
+    answer = recheck_completion.choices[0].message.content
 
     await store_conversation(request.question, answer, session)
 
